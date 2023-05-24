@@ -37,8 +37,8 @@ struct MealDetail: Codable {
                let measureKey = CodingKeys(rawValue: measureKey),
                let ingredient = try? container.decodeIfPresent(String.self, forKey: ingredientKey),
                let measure = try? container.decodeIfPresent(String.self, forKey: measureKey),
-               !ingredient.isEmpty,
-               !measure.isEmpty {
+               ingredient.isEmpty,
+               measure.isEmpty {
                 
                 ingredients.append(Ingredient(name: ingredient, measure: measure))
             }

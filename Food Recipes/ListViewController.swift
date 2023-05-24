@@ -33,9 +33,6 @@ class ListViewController: UIViewController {
                   case .success(let mealDetailsList):
                       guard let mealDetail = mealDetailsList.meals.first else { return }
                       print("Meal Detail: \(mealDetail)")
-                      print("\nIngredients:")
-                      let nonEmptyIngredients = mealDetail.ingredients.filter { !$0.name.isEmpty && !$0.measure.isEmpty }
-                      nonEmptyIngredients.forEach { print($0) }
                   case .failure(let error):
                       print("Error occurred: \(error)")
                   }

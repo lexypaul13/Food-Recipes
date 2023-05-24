@@ -21,27 +21,23 @@ enum EndPoints {
     }
 }
 
-
 enum NetworkError: String, Error {
     case invalidURL = "Invalid URL."
     case noData = "No data received from server."
     case decodingFailed = "Data decoding failed."
 }
 
-
 protocol Networking {
     func fetch<T: Decodable>(endpoint: EndPoints, completion: @escaping (Result<T, NetworkError>) -> Void)
 }
 
-class NetworkManager:Networking {
-    static let shared = NetworkManager()
-    private let jsonDecoder: JSONDecoder
+class NetworkManager: Networking {
+    let jsonDecoder: JSONDecoder
     
-    private init() {
+    init() {
         self.jsonDecoder = JSONDecoder()
         self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
     }
-    
     
     func fetch<T: Decodable>(endpoint: EndPoints, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint.url) else {
@@ -66,5 +62,4 @@ class NetworkManager:Networking {
             }
         }.resume()
     }
-    
 }
