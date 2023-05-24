@@ -28,7 +28,7 @@ class ListViewController: UIViewController {
      }
 
      func fetchMealDetails(mealID: String) {
-         networkService.fetchMealDetails(mealID: "52893") { result in
+         networkService.fetchMealDetails(mealID: "52923") { result in
                   switch result {
                   case .success(let mealDetailsList):
                       guard let mealDetail = mealDetailsList.meals.first else { return }
