@@ -11,6 +11,9 @@ class MealDetailListViewModel {
     private var mealDetail: MealDetail?
     private var networkService: NetworkService
     
+    init(networkService: NetworkService = NetworkService()) {
+        self.networkService = networkService
+    }
     var mealName: String? {
         mealDetail?.strMeal
     }
@@ -27,9 +30,7 @@ class MealDetailListViewModel {
         mealDetail?.ingredients.count ?? 0
     }
     
-    init(networkService: NetworkService = NetworkService()) {
-        self.networkService = networkService
-    }
+    
     
     func ingredientName(at index: Int) -> String? {
         guard index >= 0 && index < ingredientCount else { return nil }

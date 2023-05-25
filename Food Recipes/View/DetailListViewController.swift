@@ -10,31 +10,74 @@ import SnapKit
 
 class DetailListViewController: UIViewController {
     
-    
     private let tableView = UITableView()
     var viewModel = MealDetailListViewModel()
     var mealID:String?
     
+    private let headerView:UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }()
+    
+    
+    private let mealImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    private let mealNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 40)
+        label.textAlignment = .right
+        return label
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupHeaderView()
         setupTableView()
         loadMealDetails(for: mealID)
         
         // Do any additional setup after loading the view.
     }
     
-    
+    private func setupHeaderView() {
+        view.addSubview(headerView)
+        headerView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(415)
+        }
+        
+        headerView.addSubview(mealImageView)
+        mealImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        headerView.addSubview(mealNameLabel)
+        mealNameLabel.snp.makeConstraints { make in
+            make.right.bottom.equalToSuperview().offset(-10)
+            make.left.greaterThanOrEqualToSuperview().offset(10) // Give left constraint
+        }
+
+        mealNameLabel.numberOfLines = 0 // Allow label to expand vertically
+        mealNameLabel.adjustsFontSizeToFitWidth = true // Adjust font size if text is too long
+        mealNameLabel.minimumScaleFactor = 0.5 // Minimum scale for font size
+    }
+
     
     private func setupTableView(){
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(headerView.snp.bottom)
+            make.left.right.bottom.equalToSuperview()
         }
         
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.register(InstructionsTableViewCell.self, forCellReuseIdentifier: InstructionsTableViewCell.identifier)
         tableView.register(IngredientsTableViewCell.self, forCellReuseIdentifier: IngredientsTableViewCell.identifier)
         
@@ -43,13 +86,17 @@ class DetailListViewController: UIViewController {
     }
     
     
-    private func loadMealDetails(for mealID:String?) {
-        guard let mealID = mealID else{
-            return 
-        }
+    private func loadMealDetails(for mealID: String?) {
+        guard let mealID = mealID else { return }
+
         viewModel.fetchMealDetails(mealID: mealID) { [weak self] success in
             if success {
                 DispatchQueue.main.async {
+                    self?.mealNameLabel.text = self?.viewModel.mealName
+                    self?.title = self?.viewModel.mealName // set the title here
+                    if let imageUrl = self?.viewModel.mealImage {
+                        self?.mealImageView.loadImageUsingCache(withUrl: imageUrl)
+                    }
                     self?.tableView.reloadData()
                 }
             } else {
@@ -57,6 +104,8 @@ class DetailListViewController: UIViewController {
             }
         }
     }
+
+    
     
     
 }
@@ -77,29 +126,29 @@ extension DetailListViewController:UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 30))
-            headerView.backgroundColor = .lightGray
-            
-            let titleLabel = UILabel()
-            titleLabel.frame = CGRect(x: 15, y: 0, width: headerView.bounds.width - 30, height: headerView.bounds.height)
-            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-            titleLabel.textColor = .white
-            
-            if section == 0 {
-                titleLabel.text = "Instructions"
-            } else if section == 1 {
-                titleLabel.text = "Measurements"
-            }
-            
-            headerView.addSubview(titleLabel)
-            
-            return headerView
-        }
-
-        func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 30
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 30))
+        headerView.backgroundColor = .lightGray
+        
+        let titleLabel = UILabel()
+        titleLabel.frame = CGRect(x: 15, y: 0, width: headerView.bounds.width - 30, height: headerView.bounds.height)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        titleLabel.textColor = .white
+        
+        if section == 0 {
+            titleLabel.text = "Instructions"
+        } else if section == 1 {
+            titleLabel.text = "Measurements"
         }
         
+        headerView.addSubview(titleLabel)
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
