@@ -15,6 +15,8 @@ class ListViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Dessert List"
+        navigationItem.largeTitleDisplayMode = .never
+
         setupTableView()
         fetchMeals()
     }
