@@ -13,14 +13,19 @@ class MealTableViewCell: UITableViewCell {
     
     private let mealImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = false
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.5
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        imageView.layer.shadowRadius = 4
         return imageView
     }()
-    
+
     private let mealNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 21)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 0
         return label
     }()

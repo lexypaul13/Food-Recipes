@@ -29,12 +29,9 @@ class DetailListViewController: UIViewController {
     private func setupTableView(){
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.right.equalToSuperview()
-            make.height.equalTo(350)
+            make.edges.equalToSuperview()
         }
         
-        tableView.backgroundColor = .gray
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -78,6 +75,31 @@ extension DetailListViewController:UITableViewDelegate, UITableViewDataSource{
             return 0
         }
     }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 30))
+            headerView.backgroundColor = .lightGray
+            
+            let titleLabel = UILabel()
+            titleLabel.frame = CGRect(x: 15, y: 0, width: headerView.bounds.width - 30, height: headerView.bounds.height)
+            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+            titleLabel.textColor = .white
+            
+            if section == 0 {
+                titleLabel.text = "Instructions"
+            } else if section == 1 {
+                titleLabel.text = "Measurements"
+            }
+            
+            headerView.addSubview(titleLabel)
+            
+            return headerView
+        }
+
+        func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+            return 30
+        }
+        
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {

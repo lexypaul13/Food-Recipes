@@ -7,7 +7,7 @@
 import UIKit
 import SnapKit
 
-class ListViewController: UIViewController {
+class ListViewController: UIViewController, UITableViewDelegate {
 
     private let tableView = UITableView()
     private let viewModel = MealListViewModel()
@@ -26,6 +26,7 @@ class ListViewController: UIViewController {
         }
         
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(MealTableViewCell.self, forCellReuseIdentifier: MealTableViewCell.identifier)
     }
 
@@ -68,6 +69,7 @@ extension ListViewController: UITableViewDataSource {
         let detailListVC = DetailListViewController()
         detailListVC.mealID = mealID
         self.navigationController?.pushViewController(detailListVC, animated: true)
+        print("Selected")
     }
 
 }
