@@ -104,7 +104,7 @@ extension DetailListViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: InstructionsTableViewCell.identifier, for: indexPath) as! InstructionsTableViewCell
-            cell.configure(with: viewModel.strInstructions)
+            cell.configure(with: viewModel.mealInstructions)
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: IngredientsTableViewCell.identifier, for: indexPath) as! IngredientsTableViewCell

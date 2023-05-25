@@ -24,7 +24,6 @@ enum EndPoints {
 enum NetworkError: String, Error {
     case invalidURL = "Invalid URL."
     case noData = "No data received from server."
-    case decodingFailed = "Data decoding failed."
 }
 
 protocol Networking {
@@ -41,16 +40,17 @@ class NetworkManager: Networking {
     
     func fetch<T: Decodable>(endpoint: EndPoints, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint.url) else {
-            DispatchQueue.main.async { completion(.failure(.invalidURL)) }
+        
+            print("Error: \(NetworkError.invalidURL.localizedDescription)")
             return
         }
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
-                DispatchQueue.main.async { completion(.failure(.noData)) }
+                print("Error: \(String(describing: error?.localizedDescription))")
                 return
             }
             guard let data = data else {
-                DispatchQueue.main.async { completion(.failure(.noData)) }
+                print("Error: \(NetworkError.noData.localizedDescription)")
                 return
             }
             do {
@@ -58,7 +58,6 @@ class NetworkManager: Networking {
                 DispatchQueue.main.async { completion(.success(decodedResponse)) }
             } catch let decodingError {
                 print("Decoding error: \(decodingError)")
-                DispatchQueue.main.async { completion(.failure(.decodingFailed)) }
             }
         }.resume()
     }

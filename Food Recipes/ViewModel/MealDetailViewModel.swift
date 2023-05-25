@@ -11,35 +11,31 @@ class MealDetailListViewModel {
     private var mealDetail: MealDetail?
     private var networkService: NetworkService
     
-    var idMeal: String? {
-        mealDetail?.idMeal
-    }
-
-    var strMeal: String? {
+    var mealName: String? {
         mealDetail?.strMeal
     }
-
-    var strInstructions: String? {
+    
+    var mealInstructions: String? {
         mealDetail?.strInstructions
     }
-
-    var strMealThumb: URL? {
+    
+    var mealImage: URL? {
         mealDetail?.strMealThumb
     }
-
+    
     var ingredientCount: Int {
         mealDetail?.ingredients.count ?? 0
     }
-
+    
     init(networkService: NetworkService = NetworkService()) {
         self.networkService = networkService
     }
-
+    
     func ingredientName(at index: Int) -> String? {
         guard index >= 0 && index < ingredientCount else { return nil }
         return mealDetail?.ingredients[index].name
     }
-
+    
     func ingredientMeasure(at index: Int) -> String? {
         guard index >= 0 && index < ingredientCount else { return nil }
         return mealDetail?.ingredients[index].measure
@@ -56,5 +52,5 @@ class MealDetailListViewModel {
             }
         }
     }
+    
 }
-
