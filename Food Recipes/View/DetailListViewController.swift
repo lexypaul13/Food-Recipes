@@ -40,7 +40,8 @@ class DetailListViewController: UIViewController {
         setupHeaderView()
         setupTableView()
         loadMealDetails(for: mealID)
-        
+        self.view.backgroundColor = .white
+
         // Do any additional setup after loading the view.
     }
     
