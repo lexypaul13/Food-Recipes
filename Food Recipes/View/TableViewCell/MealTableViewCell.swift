@@ -27,8 +27,10 @@ class MealTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline)
         label.numberOfLines = 0
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
+
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

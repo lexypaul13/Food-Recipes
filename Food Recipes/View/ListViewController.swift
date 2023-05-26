@@ -16,7 +16,7 @@ class ListViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         self.title = "Dessert List"
         navigationItem.largeTitleDisplayMode = .never
-
+        setUpNavigationBarApperance()
         setupTableView()
         fetchMeals()
     }

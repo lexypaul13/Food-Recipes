@@ -21,6 +21,14 @@ class DetailListViewController: UIViewController {
     }()
     
     
+    private let dimImageView:UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.alpha = 0.3
+        return view
+    }()
+    
+    
     private let mealImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -37,16 +45,18 @@ class DetailListViewController: UIViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavigationBarApperance()
         setupHeaderView()
         setupTableView()
         loadMealDetails(for: mealID)
         self.view.backgroundColor = .white
-
-        // Do any additional setup after loading the view.
     }
+    
+ 
     
     private func setupHeaderView() {
         view.addSubview(headerView)
+        
         headerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.left.right.equalToSuperview()
@@ -57,19 +67,23 @@ class DetailListViewController: UIViewController {
         mealImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        mealImageView.addSubview(dimImageView)
+        dimImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         headerView.addSubview(mealNameLabel)
         mealNameLabel.snp.makeConstraints { make in
             make.right.bottom.equalToSuperview().offset(-10)
-            make.left.greaterThanOrEqualToSuperview().offset(10) // Give left constraint
+            make.left.greaterThanOrEqualToSuperview().offset(10)
         }
 
-        mealNameLabel.numberOfLines = 0 // Allow label to expand vertically
-        mealNameLabel.adjustsFontSizeToFitWidth = true // Adjust font size if text is too long
-        mealNameLabel.minimumScaleFactor = 0.5 // Minimum scale for font size
+        mealNameLabel.numberOfLines = 0
+        mealNameLabel.adjustsFontSizeToFitWidth = true
+        mealNameLabel.minimumScaleFactor = 0.5
     }
 
-    
     private func setupTableView(){
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -94,7 +108,6 @@ class DetailListViewController: UIViewController {
             if success {
                 DispatchQueue.main.async {
                     self?.mealNameLabel.text = self?.viewModel.mealName
-                    self?.title = self?.viewModel.mealName // set the title here
                     if let imageUrl = self?.viewModel.mealImage {
                         self?.mealImageView.loadImageUsingCache(withUrl: imageUrl)
                     }
@@ -106,8 +119,6 @@ class DetailListViewController: UIViewController {
         }
     }
 
-    
-    
     
 }
 
@@ -132,13 +143,15 @@ extension DetailListViewController:UITableViewDelegate, UITableViewDataSource{
         
         let titleLabel = UILabel()
         titleLabel.frame = CGRect(x: 15, y: 0, width: headerView.bounds.width - 30, height: headerView.bounds.height)
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         titleLabel.textColor = .white
+        titleLabel.adjustsFontForContentSizeCategory = true
+
         
         if section == 0 {
-            titleLabel.text = "Instructions"
+            titleLabel.text = "Instructions."
         } else if section == 1 {
-            titleLabel.text = "Measurements"
+            titleLabel.text = "Measurements."
         }
         
         headerView.addSubview(titleLabel)

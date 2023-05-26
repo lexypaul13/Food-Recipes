@@ -11,7 +11,7 @@ struct MealDetailsList: Codable {
     let meals: [MealDetail]
 }
 
-private struct DynamicCodingKeys: CodingKey {
+struct DynamicCodingKeys: CodingKey {
     var stringValue: String
     var intValue: Int?
     
