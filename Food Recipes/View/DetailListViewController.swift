@@ -52,7 +52,7 @@ class DetailListViewController: UIViewController {
         self.view.backgroundColor = .white
     }
     
- 
+    
     
     private func setupHeaderView() {
         view.addSubview(headerView)
@@ -67,7 +67,7 @@ class DetailListViewController: UIViewController {
         mealImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
+        
         mealImageView.addSubview(dimImageView)
         dimImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -78,12 +78,12 @@ class DetailListViewController: UIViewController {
             make.right.bottom.equalToSuperview().offset(-10)
             make.left.greaterThanOrEqualToSuperview().offset(10)
         }
-
+        
         mealNameLabel.numberOfLines = 0
         mealNameLabel.adjustsFontSizeToFitWidth = true
         mealNameLabel.minimumScaleFactor = 0.5
     }
-
+    
     private func setupTableView(){
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -103,7 +103,7 @@ class DetailListViewController: UIViewController {
     
     private func loadMealDetails(for mealID: String?) {
         guard let mealID = mealID else { return }
-
+        
         viewModel.fetchMealDetails(mealID: mealID) { [weak self] success in
             if success {
                 DispatchQueue.main.async {
@@ -118,7 +118,7 @@ class DetailListViewController: UIViewController {
             }
         }
     }
-
+    
     
 }
 
@@ -146,7 +146,7 @@ extension DetailListViewController:UITableViewDelegate, UITableViewDataSource{
         titleLabel.font = UIFont.preferredFont(forTextStyle: .headline)
         titleLabel.textColor = .white
         titleLabel.adjustsFontForContentSizeCategory = true
-
+        
         
         if section == 0 {
             titleLabel.text = "Instructions."

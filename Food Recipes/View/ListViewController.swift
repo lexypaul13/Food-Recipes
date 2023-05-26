@@ -8,10 +8,10 @@ import UIKit
 import SnapKit
 
 class ListViewController: UIViewController, UITableViewDelegate {
-
+    
     private let tableView = UITableView()
     private let viewModel = MealListViewModel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Dessert List"
@@ -20,7 +20,7 @@ class ListViewController: UIViewController, UITableViewDelegate {
         setupTableView()
         fetchMeals()
     }
-
+    
     private func setupTableView() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -31,7 +31,7 @@ class ListViewController: UIViewController, UITableViewDelegate {
         tableView.delegate = self
         tableView.register(MealTableViewCell.self, forCellReuseIdentifier: MealTableViewCell.identifier)
     }
-
+    
     private func fetchMeals() {
         viewModel.fetchMeals { [weak self] result in
             switch result {
@@ -44,22 +44,22 @@ class ListViewController: UIViewController, UITableViewDelegate {
             }
         }
     }
-
+    
 }
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MealTableViewCell.identifier, for: indexPath) as? MealTableViewCell else {
-               return UITableViewCell() // or you can create a new instance of MealTableViewCell here.
-           }
+            return UITableViewCell() 
+        }
         let mealName =  viewModel.mealName(at: indexPath.row)
         let mealImage = viewModel.mealImageURL(at: indexPath.row)
         cell.configure(with: mealName, mealImageURL: mealImage)
-
+        
         return cell
     }
     
@@ -71,7 +71,6 @@ extension ListViewController: UITableViewDataSource {
         let detailListVC = DetailListViewController()
         detailListVC.mealID = mealID
         self.navigationController?.pushViewController(detailListVC, animated: true)
-        print("Selected")
     }
-
+    
 }

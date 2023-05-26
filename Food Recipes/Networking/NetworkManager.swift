@@ -40,7 +40,7 @@ class NetworkManager: Networking {
     
     func fetch<T: Decodable>(endpoint: EndPoints, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint.url) else {
-        
+            
             print("Error: \(NetworkError.invalidURL.localizedDescription)")
             return
         }
