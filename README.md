@@ -4,7 +4,7 @@ Frame Works:
 Codable,
 URL session,
 Dynamic Keys,
-NScache and 
+NScache, Codable and 
 Tableview
 
 
