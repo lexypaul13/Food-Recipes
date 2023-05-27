@@ -40,11 +40,10 @@ class NetworkManager: Networking {
     
     func fetch<T: Decodable>(endpoint: EndPoints, completion: @escaping (Result<T, NetworkError>) -> Void) {
         guard let url = URL(string: endpoint.url) else {
-            
             print("Error: \(NetworkError.invalidURL.localizedDescription)")
             return
         }
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             if let _ = error {
                 print("Error: \(String(describing: error?.localizedDescription))")
                 return
@@ -54,6 +53,7 @@ class NetworkManager: Networking {
                 return
             }
             do {
+                guard let self = self else { return }
                 let decodedResponse = try self.jsonDecoder.decode(T.self, from: data)
                 DispatchQueue.main.async { completion(.success(decodedResponse)) }
             } catch let decodingError {
@@ -61,4 +61,5 @@ class NetworkManager: Networking {
             }
         }.resume()
     }
+
 }

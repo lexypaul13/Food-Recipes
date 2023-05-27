@@ -60,7 +60,7 @@ class DetailListViewController: UIViewController {
         headerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.left.right.equalToSuperview()
-            make.height.equalTo(415)
+            make.height.equalTo(280)
         }
         
         headerView.addSubview(mealImageView)
