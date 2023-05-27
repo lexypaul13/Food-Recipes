@@ -6,6 +6,7 @@ Frame Works:
 Codable,
 URL session,
 Dynamic Keys,
+Snapkit
 NScache, Codable and 
 Tableview
 
